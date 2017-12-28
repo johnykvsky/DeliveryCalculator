@@ -41,19 +41,11 @@ Timezone is used for proper delivery time calculation, with ie. 8h differences d
 Delivery and shipping location has separate providers, witch is important, since if we want to ship tomorrow (item was sold today), but tomorrow is sunday, next day is holiday, so shipping should skip them and count from first working day.
 
 
-## Change log
-
-Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
-
 ## Testing
 
 ``` bash
 $ composer test
 ```
-
-## Contributing
-
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## Security
 
