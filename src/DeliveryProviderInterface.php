@@ -56,16 +56,16 @@ interface DeliveryProviderInterface
     /**
       * Get dates of holidays for given year
       *
-      * @param string $year Year for calculation
+      * @param integer $year Year for calculation
       *
-      * @return void
+      * @return array
       */
     public function getHolidays($year);
 
     /**
       * Add holidays specific for country region
       *
-      * @param string $year Year
+      * @param integer $year Year
       * @param string $easter Easter day
       *
       * @return void

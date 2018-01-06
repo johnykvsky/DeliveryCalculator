@@ -82,7 +82,7 @@ class PolishDeliveryProvider implements \johnykvsky\Utils\DeliveryProviderInterf
     {
         $timezone = $this->getDateTimeZone();
         $date = \DateTime::createFromFormat('Y-m-d', $year.'-01-01', $timezone);
-        $year = $date->format('Y');
+        $year = (int) $date->format('Y');
 
         $easter = easter_date($year);
 

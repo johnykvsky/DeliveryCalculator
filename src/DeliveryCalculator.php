@@ -74,21 +74,22 @@ class DeliveryCalculator
       * @param integer $deliveryInDays Deliver package in X days
       * @param string $shippingDate Shipping start date, Y-m-d format
       *
-      * @return \DateTime
+      * @return \DateTime|false
       */
     public function calculateDeliveryDate($deliveryInDays, $shippingDate)
     {
         $deliverableDaysCounter = 0;
-        $dayCounter = 1;
+        $deliveryDate = false;
 
-        try {
-            $shippingTimezone = $this->shippingProvider->getDateTimeZone();
-            $deliveryTimezone = $this->deliveryProvider->getDateTimeZone();
-            $shippingDate = \DateTime::createFromFormat('Y-m-d', $shippingDate, $shippingTimezone);
-            $initialShippingDate = \DateTimeImmutable::createFromMutable($shippingDate);
-        } catch (\Exception $e) {
-            throw $e;
+        $shippingTimezone = $this->shippingProvider->getDateTimeZone();
+        $deliveryTimezone = $this->deliveryProvider->getDateTimeZone();
+        $shippingDate = \DateTime::createFromFormat('Y-m-d', $shippingDate, $shippingTimezone);
+
+        if (empty($shippingDate)) {
+            throw \Exception('Invalid shippingDate or shippingTimezone');
         }
+
+        $initialShippingDate = \DateTimeImmutable::createFromMutable($shippingDate);
 
         $shippingHolidays = $this->shippingProvider->getHolidays($shippingDate->format('Y'));
         $deliveryHolidays = $this->deliveryProvider->getHolidays($shippingDate->format('Y'));
