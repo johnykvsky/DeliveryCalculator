@@ -51,7 +51,7 @@ class DeliveryCalculatorTest extends TestCase
         $provider->timezone = 'Pacific/Chatham';
         $this->dlvCalc->setShippingProvider($provider);
         $result = $this->dlvCalc->calculateDeliveryDate(5, '2017-12-26')->format('Y-m-d');
-        $this->assertEquals('2018-01-02', $result);
+        $this->assertEquals('2018-01-03', $result);
     }
 
     public function testBadTimezone()
