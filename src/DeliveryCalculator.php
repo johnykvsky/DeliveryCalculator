@@ -86,7 +86,7 @@ class DeliveryCalculator
         $shippingDate = \DateTime::createFromFormat('Y-m-d', $shippingDate, $shippingTimezone);
 
         if (empty($shippingDate)) {
-            throw \Exception('Invalid shippingDate or shippingTimezone');
+            throw new \Exception('Invalid shippingDate or shippingTimezone');
         }
 
         $initialShippingDate = \DateTimeImmutable::createFromMutable($shippingDate);
