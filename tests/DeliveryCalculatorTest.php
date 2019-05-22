@@ -29,14 +29,14 @@ class DeliveryCalculatorTest extends TestCase
 
     public function testSetAdditionalNonWorkingDays()
     {
-        $this->dlvCalc->setAdditionalNonWorkingDays(array(1));
-        $this->assertEquals(array(1), $this->dlvCalc->additionalNonWorkingDays);
+        $this->dlvCalc->setAdditionalNonWorkingDays([1]);
+        $this->assertEquals([1], $this->dlvCalc->additionalNonWorkingDays);
     }
 
     public function testGetAdditionalNonWorkingDays()
     {
-        $this->dlvCalc->setAdditionalNonWorkingDays(array(1));
-        $this->assertEquals(array(1), $this->dlvCalc->getAdditionalNonWorkingDays());
+        $this->dlvCalc->setAdditionalNonWorkingDays([1]);
+        $this->assertEquals([1], $this->dlvCalc->getAdditionalNonWorkingDays());
     }
 
     public function testCalculateDeliveryDate()
@@ -48,10 +48,17 @@ class DeliveryCalculatorTest extends TestCase
     public function testYearChangeWithDifferentTimezoneDelivery()
     {
         $provider = new johnykvsky\Utils\PolishDeliveryProvider();
-        $provider->timezone = 'Pacific/Chatham';
+        $provider->setTimezone('Pacific/Chatham');
         $this->dlvCalc->setShippingProvider($provider);
         $result = $this->dlvCalc->calculateDeliveryDate(5, '2017-12-26')->format('Y-m-d');
         $this->assertEquals('2018-01-03', $result);
+    }
+    
+    public function testCalculateDeliveryDateWithAdditionalNonWorkingDays()
+    {
+        $this->dlvCalc->setAdditionalNonWorkingDays([0,4,6]);
+        $result = $this->dlvCalc->calculateDeliveryDate(3, '2017-10-24')->format('Y-m-d');
+        $this->assertEquals('2017-10-30', $result);
     }
 
     public function testBadTimezone()
@@ -60,6 +67,6 @@ class DeliveryCalculatorTest extends TestCase
         $provider->timezone = 'Pacific/Chatham1';
         $this->expectException(\Exception::class);
         $this->dlvCalc->setShippingProvider($provider);
-        $result = $this->dlvCalc->calculateDeliveryDate(4, '2017-12-26');
+        $this->dlvCalc->calculateDeliveryDate(4, '2017-12-26');
     }
 }

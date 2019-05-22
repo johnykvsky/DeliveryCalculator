@@ -2,6 +2,8 @@
 
 namespace johnykvsky\Utils;
 
+use johnykvsky\Utils\Exception\InvalidDateTimezoneException;
+
 /**
  * Calculate delivery time, only workdays
  */
@@ -20,7 +22,7 @@ class PolishDeliveryProvider implements \johnykvsky\Utils\DeliveryProviderInterf
     /**
      * @var array $nonWorkingDays Non working days (weekends)
      */
-    public $nonWorkingDays = array('0','6'); //no delivery on saturday 6, and sunday 0
+    public $nonWorkingDays = [0,6]; //no delivery on saturday 6, and sunday 0
 
     /**
      * @var string $region Region to deliver
@@ -30,7 +32,7 @@ class PolishDeliveryProvider implements \johnykvsky\Utils\DeliveryProviderInterf
     /**
       * {@inheritdoc}
       */
-    public function setTimezone($timezone)
+    public function setTimezone(string $timezone): void
     {
         $this->timezone = $timezone;
     }
@@ -38,7 +40,7 @@ class PolishDeliveryProvider implements \johnykvsky\Utils\DeliveryProviderInterf
     /**
       * {@inheritdoc}
       */
-    public function setRegion($region)
+    public function setRegion(string $region): void
     {
         $this->region = $region;
     }
@@ -46,7 +48,7 @@ class PolishDeliveryProvider implements \johnykvsky\Utils\DeliveryProviderInterf
     /**
       * {@inheritdoc}
       */
-    public function addHoliday($date)
+    public function addHoliday(string $date): void
     {
         $this->holidays[] = $date;
     }
@@ -54,7 +56,7 @@ class PolishDeliveryProvider implements \johnykvsky\Utils\DeliveryProviderInterf
     /**
       * {@inheritdoc}
       */
-    public function getDateTimeZone()
+    public function getDateTimeZone(): \DateTimeZone
     {
         return new \DateTimeZone($this->timezone);
     }
@@ -62,7 +64,7 @@ class PolishDeliveryProvider implements \johnykvsky\Utils\DeliveryProviderInterf
     /**
       * {@inheritdoc}
       */
-    public function getNonWorkingWeekDays()
+    public function getNonWorkingWeekDays(): array
     {
         return $this->nonWorkingDays;
     }
@@ -70,7 +72,7 @@ class PolishDeliveryProvider implements \johnykvsky\Utils\DeliveryProviderInterf
     /**
       * {@inheritdoc}
       */
-    public function setNonWorkingWeekDays($nonWorkingWeekDays)
+    public function setNonWorkingWeekDays(array $nonWorkingWeekDays): void
     {
         $this->nonWorkingDays = $nonWorkingWeekDays;
     }
@@ -78,30 +80,35 @@ class PolishDeliveryProvider implements \johnykvsky\Utils\DeliveryProviderInterf
     /**
       * {@inheritdoc}
       */
-    public function getHolidays($year)
+    public function getHolidays(int $year): array
     {
         $timezone = $this->getDateTimeZone();
         $date = \DateTime::createFromFormat('Y-m-d', $year.'-01-01', $timezone);
-        $year = (int) $date->format('Y');
 
-        $easter = easter_date($year);
+        if (empty($date)) {
+            throw new InvalidDateTimezoneException('Invalid shippingDate or shippingTimezone');
+        }
+        
+        $year = (int) $date->format('Y');
+       
+        $easterDateTime = new \DateTime('@' . easter_date($year));
+        $easterDateTime->setTimezone($timezone);
 
         $this->addHoliday($year.'-01-01'); //Nowy Rok, Świętej Bożej Rodzicielki
         $this->addHoliday($year.'-01-06'); //Trzech Króli (Objawienie Pańskie)
-        $this->addHoliday(date('Y-m-d', $easter)); //Wielkanocna sobota, ruchome święto
-        $this->addHoliday(date('Y-m-d', strtotime('+1 day', $easter))); //Wielkanocna niedziela, ruchome święto
-        $this->addHoliday(date('Y-m-d', strtotime('+2 day', $easter))); //Poniedziałek Wielkanocny
+        $this->addHoliday($easterDateTime->format('Y-m-d')); //Wielkanocna niedziela, ruchome święto
+        $this->addHoliday($easterDateTime->add(new \DateInterval('P1D'))->format('Y-m-d')); //Poniedziałek Wielkanocny
         $this->addHoliday($year.'-05-01'); //Święto Pracy
         $this->addHoliday($year.'-05-03'); //Święto Konstytucji 3 Maja
-        $this->addHoliday(date('Y-m-d', strtotime('+49 days', $easter))); //Zesłanie Ducha Świętego (Zielone Świątki), 49 dni po niedzieli wielkanocnej
-        $this->addHoliday(date('Y-m-d', strtotime('+60 days', $easter))); //Boże Ciało, 60 dni po niedzieli wielkanocnej
+        $this->addHoliday($easterDateTime->add(new \DateInterval('P48D'))->format('Y-m-d')); //Zesłanie Ducha Świętego (Zielone Świątki), 50 dni po niedzieli wielkanocnej
+        $this->addHoliday($easterDateTime->add(new \DateInterval('P11D'))->format('Y-m-d')); //Boże Ciało, 60 dni po niedzieli wielkanocnej
         $this->addHoliday($year.'-08-15'); //Święto Wojska Polskiego, Wniebowzięcie Najświętszej Maryi Panny
         $this->addHoliday($year.'-11-01'); //Wszystkich Świętych
         $this->addHoliday($year.'-11-11'); //Święto Niepodległości
         $this->addHoliday($year.'-12-25'); //Boże Narodzenie (pierwszy dzień)
         $this->addHoliday($year.'-12-26'); //Boże Narodzenie (pierwszy dzień)
-
-        $this->addRegionHolidays($year, $easter);
+        
+        $this->addRegionHolidays($year);
 
         return $this->holidays;
     }
@@ -109,8 +116,7 @@ class PolishDeliveryProvider implements \johnykvsky\Utils\DeliveryProviderInterf
     /**
       * {@inheritdoc}
       */
-    public function addRegionHolidays($year, $easter)
+    public function addRegionHolidays(int $year): void
     {
-        return;
     }
 }

@@ -10,22 +10,21 @@ class ProviderTest extends TestCase
     protected function setUp()
     {
         $this->provider = new johnykvsky\Utils\PolishDeliveryProvider();
-        $this->holidays = array(
-            0 => '2017-01-01',
-            1 => '2017-01-06',
-            2 => '2017-04-16',
-            3 => '2017-04-17',
-            4 => '2017-04-18',
-            5 => '2017-05-01',
-            6 => '2017-05-03',
-            7 => '2017-06-04',
-            8 => '2017-06-15',
-            9 => '2017-08-15',
-            10 => '2017-11-01',
-            11 => '2017-11-11',
-            12 => '2017-12-25',
-            13 => '2017-12-26'
-        );
+        $this->holidays = [
+            '2017-01-01',
+            '2017-01-06',
+            '2017-04-16',
+            '2017-04-17',
+            '2017-05-01',
+            '2017-05-03',
+            '2017-06-04',
+            '2017-06-15',
+            '2017-08-15',
+            '2017-11-01',
+            '2017-11-11',
+            '2017-12-25',
+            '2017-12-26'
+        ];
     }
 
     public function testSetTimezone()
@@ -42,13 +41,13 @@ class ProviderTest extends TestCase
 
     public function testGetNonWorkingWeekDays()
     {
-        $this->assertEquals(array(0,6), $this->provider->getNonWorkingWeekDays());
+        $this->assertEquals([0,6], $this->provider->getNonWorkingWeekDays());
     }
 
     public function testSetNonWorkingWeekDays()
     {
         $this->provider->setNonWorkingWeekDays(array(0,6));
-        $this->assertEquals(array(0,6), $this->provider->getNonWorkingWeekDays());
+        $this->assertEquals([0,6], $this->provider->getNonWorkingWeekDays());
     }
 
     public function testSetRegion()
@@ -59,7 +58,7 @@ class ProviderTest extends TestCase
 
     public function testGetHolidays()
     {
-        $this->assertEquals($this->holidays, $this->provider->getHolidays('2017'));
+        $this->assertEquals($this->holidays, $this->provider->getHolidays(2017));
     }
 
     public function testAddHoliday()
@@ -72,6 +71,6 @@ class ProviderTest extends TestCase
 
     public function testAddRegionHolidays()
     {
-        $this->assertEquals(null, $this->provider->addRegionHolidays('2017', '2017-04-16'));
+        $this->assertEquals(null, $this->provider->addRegionHolidays(2017));
     }
 }

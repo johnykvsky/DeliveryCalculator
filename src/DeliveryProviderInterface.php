@@ -14,7 +14,7 @@ interface DeliveryProviderInterface
       *
       * @return void
       */
-    public function setTimezone($timezone);
+    public function setTimezone(string $timezone): void;
 
     /**
       * Set region
@@ -23,7 +23,7 @@ interface DeliveryProviderInterface
       *
       * @return void
       */
-    public function setRegion($region);
+    public function setRegion(string $region): void;
 
     /**
       * Add work-free day
@@ -32,43 +32,42 @@ interface DeliveryProviderInterface
       *
       * @return void
       */
-    public function addHoliday($date);
+    public function addHoliday(string $date): void;
 
     /**
       * Get DateTimeZone with providers timezone
       *
       * @return \DateTimeZone
       */
-    public function getDateTimeZone();
+    public function getDateTimeZone(): \DateTimeZone;
 
     /**
       * Get non working days
       *
-      * @return array
+      * @return mixed[]
       */
-    public function getNonWorkingWeekDays();
+    public function getNonWorkingWeekDays(): array;
 
     /**
-      * {@inheritdoc}
+      * @param mixed[] $nonWorkingWeekDays Array of non working days
       */
-    public function setNonWorkingWeekDays($nonWorkingWeekDays);
+    public function setNonWorkingWeekDays(array $nonWorkingWeekDays): void;
 
     /**
       * Get dates of holidays for given year
       *
       * @param integer $year Year for calculation
       *
-      * @return array
+      * @return mixed[]
       */
-    public function getHolidays($year);
+    public function getHolidays(int $year): array;
 
     /**
       * Add holidays specific for country region
       *
       * @param integer $year Year
-      * @param string $easter Easter day
       *
       * @return void
       */
-    public function addRegionHolidays($year, $easter);
+    public function addRegionHolidays(int $year): void;
 }
