@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use PHPUnit\Framework\TestCase;
 
 class ProviderTest extends TestCase
@@ -7,7 +9,7 @@ class ProviderTest extends TestCase
     public $provider;
     public $holidays;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->provider = new johnykvsky\Utils\PolishDeliveryProvider();
         $this->holidays = [
@@ -66,7 +68,7 @@ class ProviderTest extends TestCase
         $reversed = array_reverse($this->holidays);
         $reversed[14] = '2017-08-01';
         $this->provider->addHoliday('2017-08-01');
-        $this->assertEquals(array_reverse($reversed), $this->provider->getHolidays('2017'));
+        $this->assertEquals(array_reverse($reversed), $this->provider->getHolidays(2017));
     }
 
     public function testAddRegionHolidays()

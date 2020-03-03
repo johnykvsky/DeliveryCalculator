@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace johnykvsky\Utils;
 
 use johnykvsky\Utils\Exception\InvalidDateTimezoneException;
@@ -15,12 +17,12 @@ class PolishDeliveryProvider implements \johnykvsky\Utils\DeliveryProviderInterf
     public $timezone = 'Europe/Warsaw';
 
     /**
-     * @var array $holidays Holidays dates
+     * @var array<string> $holidays Holidays dates
      */
     public $holidays = [];
 
     /**
-     * @var array $nonWorkingDays Non working days (weekends)
+     * @var array<int> $nonWorkingDays Non working days (weekends)
      */
     public $nonWorkingDays = [0,6]; //no delivery on saturday 6, and sunday 0
 

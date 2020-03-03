@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use PHPUnit\Framework\TestCase;
 
 class DeliveryCalculatorTest extends TestCase
@@ -7,7 +9,7 @@ class DeliveryCalculatorTest extends TestCase
     public $dlvCalc;
     public $provider;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->dlvCalc = new johnykvsky\Utils\DeliveryCalculator();
         $this->provider = new johnykvsky\Utils\PolishDeliveryProvider();

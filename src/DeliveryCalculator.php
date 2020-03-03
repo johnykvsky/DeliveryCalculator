@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace johnykvsky\Utils;
 
 use johnykvsky\Utils\Exception\InvalidDateTimezoneException;
@@ -20,7 +22,7 @@ class DeliveryCalculator
     public $deliveryProvider;
 
     /**
-     * @var array $additionalNonWorkingDays Additional non working days (ie. we don't deliver on mondays)
+     * @var array<string> $additionalNonWorkingDays Additional non working days (ie. we don't deliver on mondays)
      */
     public $additionalNonWorkingDays = [];
 
