@@ -2,10 +2,8 @@
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
-[![Build Status][ico-travis]][link-travis]
-[![Coverage Status][ico-scrutinizer]][link-scrutinizer]
-[![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
+[![Build Status][ico-github-actions]][link-github-actions]
 
 Calculate delivery time - only working days, skip holidays or weekends (witch can be turned off, but by default is on).
 
@@ -70,14 +68,10 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 
 [ico-version]: https://img.shields.io/packagist/v/johnykvsky/DeliveryCalculator.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/johnykvsky/DeliveryCalculator/master.svg?style=flat-square
-[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/johnykvsky/DeliveryCalculator.svg?style=flat-square
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/johnykvsky/DeliveryCalculator.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/johnykvsky/DeliveryCalculator.svg?style=flat-square
+[ico-github-actions]: https://github.com/johnykvsky/DeliveryCalculator/actions/workflows/php.yml/badge.svg
 
 [link-packagist]: https://packagist.org/packages/johnykvsky/DeliveryCalculator
-[link-travis]: https://travis-ci.org/johnykvsky/DeliveryCalculator
-[link-scrutinizer]: https://scrutinizer-ci.com/g/johnykvsky/DeliveryCalculator/code-structure
-[link-code-quality]: https://scrutinizer-ci.com/g/johnykvsky/DeliveryCalculator
 [link-downloads]: https://packagist.org/packages/johnykvsky/DeliveryCalculator
 [link-author]: https://github.com/johnykvsky
+[link-github-actions]: https://github.com/johnykvsky/DeliveryCalculator/actions
